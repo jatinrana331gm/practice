@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Webpage</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        .container { display: flex; flex-wrap: wrap; justify-content: space-around; }
+        .box { padding: 20px; border: 2px solid #333; border-radius: 10px; margin: 20px; width: 300px; }
+        .display { width: 100%; height: 50px; font-size: 24px; text-align: right; margin-bottom: 10px; }
+        .buttons button { width: 60px; height: 60px; font-size: 20px; margin: 5px; }
+        input, button, textarea { margin: 10px; padding: 10px; width: 80%; }
+        #output, #ageOutput, #charCount, #tipOutput, #wordCount, #quoteOutput, #diceResult, #temperatureResult { 
+            margin-top: 10px; font-size: 18px; font-weight: bold; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Webpage</h1>
+    <div class="container">
+        <!-- 1. Greeting User -->
+        <div class="box">
+            <h2>Enter Your Name</h2>
+            <input type="text" id="name" placeholder="Your Name" onkeypress="handleKeyPress(event, greetUser)">
+            <button onclick="greetUser()">Submit</button>
+            <div id="output"></div>
+        </div>
+
+        <!-- 2. Calculator -->
+        <div class="box">
+            <h2>Simple Calculator</h2>
+            <input type="text" id="display" class="display" disabled>
+            <div class="buttons">
+                <button onclick="clearDisplay()">C</button>
+                <button onclick="appendValue('7')">7</button>
+                <button onclick="appendValue('8')">8</button>
+                <button onclick="appendValue('9')">9</button>
+                <button onclick="appendValue('+')">+</button>
+                <br>
+                <button onclick="appendValue('4')">4</button>
+                <button onclick="appendValue('5')">5</button>
+                <button onclick="appendValue('6')">6</button>
+                <button onclick="appendValue('-')">-</button>
+                <br>
+                <button onclick="appendValue('1')">1</button>
+                <button onclick="appendValue('2')">2</button>
+                <button onclick="appendValue('3')">3</button>
+                <button onclick="appendValue('*')">×</button>
+                <br>
+                <button onclick="appendValue('0')">0</button>
+                <button onclick="appendValue('.')">.</button>
+                <button onclick="calculateResult()">=</button>
+                <button onclick="appendValue('/')">÷</button>
+            </div>
+        </div>
+
+        <!-- 3. Age Calculator -->
+        <div class="box">
+            <h2>Age Calculator</h2>
+            <input type="date" id="birthDate" onkeypress="handleKeyPress(event, calculateAge)">
+            <button onclick="calculateAge()">Calculate Age</button>
+            <div id="ageOutput"></div>
+        </div>
+      <!--11. Background Color Changer -->
+      <div class="box">
+        <h2>Background Color Changer</h2>
+        <button onclick="changeColor()">Change Background</button>
+    </div>
+        <!-- 4. Character Counter -->
+        <div class="box">
+            <h2>Character Counter</h2>
+            <textarea id="textInput" oninput="countCharacters()" placeholder="Type something..."></textarea>
+            <div id="charCount">Characters: 0</div>
+        </div>
+
+        <!-- 5. Tip Calculator -->
+        <div class="box">
+            <h2>Tip Calculator</h2>
+            <input type="number" id="billAmount" placeholder="Bill Amount">
+            <input type="number" id="tipPercent" placeholder="Tip %" onkeypress="handleKeyPress(event, calculateTip)">
+            <button onclick="calculateTip()">Calculate Tip</button>
+            <div id="tipOutput"></div>
+        </div>
+
+        <!-- 6. To-Do List -->
+        <div class="box">
+            <h2>To-Do List</h2>
+            <input type="text" id="taskInput" placeholder="New Task" onkeypress="handleKeyPress(event, addTask)">
+            <button onclick="addTask()">Add Task</button>
+            <ul id="taskList"></ul>
+        </div>
+
+        <!-- 7. Word Counter -->
+        <div class="box">
+            <h2>Word Counter</h2>
+            <textarea id="wordInput" oninput="countWords()" placeholder="Type something..."></textarea>
+            <div id="wordCount">Words: 0</div>
+        </div>
+
+        <!-- 8. Dice Roller -->
+        <div class="box">
+            <h2>Dice Roller</h2>
+            <button onclick="rollDice()">Roll Dice</button>
+            <div id="diceResult"></div>
+        </div>
+
+        <!-- 9. Random Quote Generator -->
+        <div class="box">
+            <h2>Random Quote Generator</h2>
+            <button onclick="generateQuote()">Get Quote</button>
+            <div id="quoteOutput"></div>
+        </div>
+
+        <!-- 10. Temperature Converter -->
+        <div class="box">
+            <h2>Temperature Converter</h2>
+            <input type="number" id="tempInput" placeholder="°C" onkeypress="handleKeyPress(event, convertTemperature)">
+            <button onclick="convertTemperature()">Convert to °F</button>
+            <div id="temperatureResult"></div>
+        </div>
+
+        
+
+        <!-- Other 10 Projects Here -->
+        
+    </div>
+    </div>
+
+    <script>
+        function handleKeyPress(event, callback) {
+            if (event.key === "Enter") {
+                callback();
+            }
+        }
+
+        function greetUser() {
+            let name = document.getElementById("name").value;
+            document.getElementById("output").textContent = name ? "Hello, " + name + "!" : "Please enter your name.";
+        }
+
+        function appendValue(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function calculateResult() {
+            try {
+                document.getElementById("display").value = eval(document.getElementById("display").value);
+            } catch {
+                document.getElementById("display").value = "Error";
+            }
+        }
+
+        function calculateAge() {
+            let birthDate = new Date(document.getElementById("birthDate").value);
+            let today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            document.getElementById("ageOutput").textContent = "Your Age: " + age + " years";
+        }
+
+        function countCharacters() {
+            document.getElementById("charCount").textContent = "Characters: " + document.getElementById("textInput").value.length;
+        }
+
+        function calculateTip() {
+            let bill = parseFloat(document.getElementById("billAmount").value);
+            let tipPercent = parseFloat(document.getElementById("tipPercent").value);
+            document.getElementById("tipOutput").textContent = "Tip: $" + ((bill * tipPercent) / 100).toFixed(2);
+        }
+
+        function addTask() {
+            let task = document.getElementById("taskInput").value;
+            if (task) {
+                let listItem = document.createElement("li");
+                listItem.textContent = task;
+                document.getElementById("taskList").appendChild(listItem);
+                document.getElementById("taskInput").value = "";
+            }
+        }
+
+        function countWords() {
+            let words = document.getElementById("wordInput").value.trim().split(/\s+/);
+            document.getElementById("wordCount").textContent = "Words: " + (words[0] ? words.length : 0);
+        }
+
+        function rollDice() {
+            document.getElementById("diceResult").textContent = "You rolled: " + (Math.floor(Math.random() * 6) + 1);
+        }
+
+        function generateQuote() {
+            let quotes = ["Stay positive!", "Keep going!", "Believe in yourself!", "Never give up!"];
+            document.getElementById("quoteOutput").textContent = quotes[Math.floor(Math.random() * quotes.length)];
+        }
+
+        function convertTemperature() {
+            let celsius = document.getElementById("tempInput").value;
+            document.getElementById("temperatureResult").textContent = "Temperature: " + (celsius * 9/5 + 32) + "°F";
+        }
+
+        function changeColor() {
+            document.body.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+        }
+    </script>
+</body>
+</html>
