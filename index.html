@@ -13,6 +13,21 @@
         input, button, textarea { margin: 10px; padding: 10px; width: 80%; }
         #output, #ageOutput, #charCount, #tipOutput, #wordCount, #quoteOutput, #diceResult, #temperatureResult { 
             margin-top: 10px; font-size: 18px; font-weight: bold; 
+        } 
+         .table-container {
+            height: 600px; /* Fixed height for scrolling effect */
+            overflow-y: auto; /* Enables vertical scrolling */
+            border: 2px solid black;
+            padding: 10px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
         }
     </style>
 </head>
@@ -123,6 +138,10 @@
         
 
         <!-- Other 10 Projects Here -->
+         <h1>Super Fast Infinite Counting Table</h1>
+    <div class="table-container" id="tableContainer">
+        <table id="counterTable"></table>
+    </div>
         
     </div>
     </div>
@@ -204,6 +223,36 @@
         function changeColor() {
             document.body.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16);
         }
+
+        // extra 
+        let i = 1; // Counter starts from 1
+
+        const addRowsFast = () => {
+            let table = document.getElementById("counterTable");
+            let container = document.getElementById("tableContainer");
+            let fragment = document.createDocumentFragment();
+
+            for (let r = 0; r < 20; r++) { // Adds 20 rows at a time (SUPER FAST)
+                let row = document.createElement("tr");
+
+                for (let j = 0; j < 10; j++) { // Each row has 10 numbers
+                    let cell = document.createElement("td");
+                    cell.innerText = i;
+                    row.appendChild(cell);
+                    i++;
+                }
+
+                fragment.appendChild(row);
+            }
+
+            table.appendChild(fragment); // Batch update (NO LAG)
+            container.scrollTop = container.scrollHeight; // Auto-scroll
+
+            requestAnimationFrame(addRowsFast); // Runs infinitely
+        };
+
+        addRowsFast(); // Start the infinite loop
+
     </script>
 </body>
 </html>
